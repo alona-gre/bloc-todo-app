@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:uuid/uuid.dart';
 
 // ignore: must_be_immutable
 class Task extends Equatable {

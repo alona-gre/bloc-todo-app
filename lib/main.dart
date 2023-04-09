@@ -1,4 +1,5 @@
 import 'package:bloc_todo_app/screens/tasks_screen.dart';
+import 'package:bloc_todo_app/services/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -9,11 +10,17 @@ void main() async {
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
-  runApp(const MyApp());
+  runApp(
+    MyApp(
+      approuter: AppRouter(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final AppRouter approuter;
+
+  const MyApp({super.key, required this.approuter});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +31,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const TaskScreen(),
+        home: const TasksScreen(),
+        onGenerateRoute: approuter.onGenerateRoute,
       ),
     );
   }
