@@ -34,7 +34,7 @@ class TasksState extends Equatable {
         )),
       ),
       completedTasks: List<Task>.from(
-        (map['removedTasks']?.map(
+        (map['completedTasks']?.map(
           (x) => Task.fromMap(x),
         )),
       ),

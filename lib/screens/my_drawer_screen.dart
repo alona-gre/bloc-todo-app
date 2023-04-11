@@ -28,7 +28,7 @@ class MyDrawer extends StatelessWidget {
           BlocBuilder<TasksBloc, TasksState>(
             builder: (context, state) {
               return GestureDetector(
-                onTap: () => Navigator.of(context).pushNamed(
+                onTap: () => Navigator.of(context).pushReplacementNamed(
                   TasksScreen.id,
                 ),
                 child: ListTile(
@@ -45,7 +45,7 @@ class MyDrawer extends StatelessWidget {
           BlocBuilder<TasksBloc, TasksState>(
             builder: (context, state) {
               return GestureDetector(
-                onTap: () => Navigator.of(context).pushNamed(
+                onTap: () => Navigator.of(context).pushReplacementNamed(
                   CompletedTasksScreen.id,
                 ),
                 child: ListTile(
@@ -63,7 +63,7 @@ class MyDrawer extends StatelessWidget {
           BlocBuilder<TasksBloc, TasksState>(
             builder: (context, state) {
               return GestureDetector(
-                onTap: () => Navigator.of(context).pushNamed(
+                onTap: () => Navigator.of(context).pushReplacementNamed(
                   DeletedTasksScreen.id,
                 ),
                 child: ListTile(
@@ -75,6 +75,7 @@ class MyDrawer extends StatelessWidget {
               );
             },
           ),
+          // Switch(value: switchValue, onChanged: (newValue) {})
         ],
       ),
     );
