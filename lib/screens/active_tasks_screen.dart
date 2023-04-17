@@ -6,11 +6,16 @@ import '../widgets/tasks_list.dart';
 import 'add_task_screen.dart';
 import 'my_drawer_screen.dart';
 
-class TasksScreen extends StatelessWidget {
-  const TasksScreen({Key? key}) : super(key: key);
+class ActiveTasksScreen extends StatefulWidget {
+  const ActiveTasksScreen({Key? key}) : super(key: key);
 
-  static const id = 'tasks_screen';
+  static const id = 'active_tasks_screen';
 
+  @override
+  State<ActiveTasksScreen> createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<ActiveTasksScreen> {
   void _addTask(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -30,14 +35,13 @@ class TasksScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TasksBloc, TasksState>(
       builder: (context, state) {
-        List<Task> taskList = state.allTasks;
+        List<Task> taskList = state.activeTasks;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
               child: Chip(
-                label: Text(
-                    '${state.completedTasks.length} Completed | ${taskList.length} All'),
+                label: Text('${taskList.length} Active Tasks'),
               ),
             ),
             TasksList(taskList: taskList)

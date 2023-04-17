@@ -1,4 +1,5 @@
 import 'package:bloc_todo_app/screens/deleted_tasks_screen.dart';
+import 'package:bloc_todo_app/screens/tabs_screen.dart';
 import 'package:bloc_todo_app/screens/tasks_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,7 @@ class MyDrawer extends StatelessWidget {
             builder: (context, state) {
               return GestureDetector(
                 onTap: () => Navigator.of(context).pushReplacementNamed(
-                  TasksScreen.id,
+                  TabsScreen.id,
                 ),
                 child: ListTile(
                   leading: const Icon(Icons.folder_special),
