@@ -4,7 +4,6 @@ import '../blocs/bloc_exports.dart';
 import '../models/task.dart';
 import '../widgets/tasks_list.dart';
 import 'add_task_screen.dart';
-import 'my_drawer_screen.dart';
 
 class FavoriteTasksScreen extends StatefulWidget {
   const FavoriteTasksScreen({Key? key}) : super(key: key);

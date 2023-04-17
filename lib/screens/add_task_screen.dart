@@ -1,6 +1,7 @@
 import 'package:bloc_todo_app/blocs/bloc_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:intl/intl.dart';
 
 import '../models/task.dart';
 
@@ -54,10 +55,10 @@ class AddTaskScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   var task = Task(
-                    title: titleController.text,
-                    notes: notesController.text,
-                    id: const Uuid().v4(),
-                  );
+                      title: titleController.text,
+                      notes: notesController.text,
+                      id: const Uuid().v4(),
+                      createdDate: DateTime.now().toString());
                   context.read<TasksBloc>().add(
                         AddTask(task: task),
                       );

@@ -42,3 +42,12 @@ class AddTask extends TasksEvent {
   @override
   List<Object> get props => [task];
 }
+
+class FavoriteTask extends TasksEvent {
+  final Task task;
+
+  const FavoriteTask({required this.task});
+
+  @override
+  List<Object> get props => [task];
+}
