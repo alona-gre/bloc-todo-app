@@ -28,46 +28,6 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     );
   }
 
-  void _onFavoriteTask(FavoriteTask event, Emitter<TasksState> emit) {
-    final state = this.state;
-    List<Task> allTasks = state.allTasks;
-    List<Task> activeTasks = state.activeTasks;
-    List<Task> favoriteTasks = state.favoriteTasks;
-    // if (event.task.isDone == false) {
-    if (event.task.isFavorite == false) {
-      var taskIndex = allTasks.indexOf(event.task);
-
-      allTasks = List.from(allTasks)
-        ..remove(event.task)
-        ..insert(taskIndex, event.task.copyWith(isFavorite: true));
-      // activeTasks = List.from(activeTasks)
-      //   ..remove(event.task)
-      //   ..insert(taskIndex, event.task.copyWith(isFavorite: true));
-      favoriteTasks.insert(0, event.task.copyWith(isFavorite: true));
-    } else {
-      var taskIndex = allTasks.indexOf(event.task);
-      allTasks = List.from(allTasks)
-        ..remove(event.task)
-        ..insert(taskIndex, event.task.copyWith(isFavorite: false));
-      // activeTasks = List.from(activeTasks)
-      //   ..remove(event.task)
-      //   ..insert(taskIndex, event.task.copyWith(isFavorite: false));
-      favoriteTasks.remove(event.task);
-    }
-    // } else {
-    //   null;
-    // }
-    emit(
-      TasksState(
-        allTasks: allTasks,
-        activeTasks: activeTasks,
-        favoriteTasks: favoriteTasks,
-        completedTasks: state.completedTasks,
-        removedTasks: state.removedTasks,
-      ),
-    );
-  }
-
   void _onCompleteTask(CompleteTask event, Emitter<TasksState> emit) {
     final state = this.state;
     final task = event.task;
@@ -122,6 +82,80 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
         favoriteTasks: state.favoriteTasks,
         removedTasks: List.from(state.removedTasks)..remove(event.task),
         completedTasks: state.completedTasks,
+      ),
+    );
+  }
+
+  void _onFavoriteTask(FavoriteTask event, Emitter<TasksState> emit) {
+    final state = this.state;
+    List<Task> allTasks = state.allTasks;
+    List<Task> activeTasks = state.activeTasks;
+    List<Task> favoriteTasks = state.favoriteTasks;
+    // List<Task> completedTasks = state.completedTasks;
+
+    if (event.task.isDone == false) {
+      if (event.task.isFavorite == false) {
+        var taskIndex = allTasks.indexOf(event.task);
+
+        allTasks = List.from(allTasks)
+          ..remove(event.task)
+          ..insert(taskIndex, event.task.copyWith(isFavorite: true));
+        activeTasks = List.from(activeTasks)
+          ..remove(event.task)
+          ..insert(taskIndex, event.task.copyWith(isFavorite: true));
+        favoriteTasks
+          ..remove(event.task)
+          ..insert(0, event.task.copyWith(isFavorite: true));
+      } else {
+        var taskIndex = allTasks.indexOf(event.task);
+        allTasks = List.from(allTasks)
+          ..remove(event.task)
+          ..insert(taskIndex, event.task.copyWith(isFavorite: false));
+        activeTasks = List.from(activeTasks)
+          ..remove(event.task)
+          ..insert(taskIndex, event.task.copyWith(isFavorite: false));
+        favoriteTasks.remove(event.task);
+      }
+    } else //if event.task.isDone == true
+    {
+      activeTasks = List.from(activeTasks)..remove(event.task);
+      // if (event.task.isFavorite == false) {
+      //   var taskIndex = allTasks.indexOf(event.task);
+      //   allTasks = List.from(allTasks)
+      //     ..remove(event.task)
+      //     ..insert(
+      //         taskIndex, event.task.copyWith(isFavorite: true, isDone: true));
+      // completedTasks = List.from(completedTasks)
+      //   ..remove(event.task)
+      //   ..insert(
+      //       taskIndex, event.task.copyWith(isFavorite: true, isDone: true));
+      // favoriteTasks = List.from(favoriteTasks)
+      //   ..remove(event.task)
+      //   ..insert(
+      //       taskIndex, event.task.copyWith(isFavorite: true, isDone: true));
+      // } else {
+      // var taskIndex = allTasks.indexOf(event.task);
+      // allTasks = List.from(allTasks)
+      //   ..remove(event.task)
+      //   ..insert(
+      //       taskIndex, event.task.copyWith(isFavorite: false, isDone: true));
+      // completedTasks = List.from(completedTasks)
+      //   ..remove(event.task)
+      //   ..insert(
+      //       taskIndex, event.task.copyWith(isFavorite: false, isDone: true));
+      // favoriteTasks = List.from(favoriteTasks)
+      //   ..remove(event.task)
+      //   ..insert(0, event.task.copyWith(isFavorite: false, isDone: true));
+      //  }
+    }
+
+    emit(
+      TasksState(
+        allTasks: allTasks,
+        activeTasks: activeTasks,
+        favoriteTasks: favoriteTasks,
+        completedTasks: state.completedTasks,
+        removedTasks: state.removedTasks,
       ),
     );
   }
