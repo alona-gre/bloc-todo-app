@@ -7,9 +7,9 @@ import '../models/task.dart';
 
 class TaskTile extends StatelessWidget {
   const TaskTile({
-    super.key,
+    Key? key,
     required this.task,
-  });
+  }) : super(key: key);
 
   final Task task;
 

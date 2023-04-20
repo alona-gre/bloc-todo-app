@@ -21,7 +21,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
       TasksState(
         allTasks: List.from(state.allTasks)..add(event.task),
         activeTasks: List.from(state.activeTasks)..add(event.task),
-        favoriteTasks: List.from(state.activeTasks)..add(event.task),
+        favoriteTasks: state.favoriteTasks,
         removedTasks: state.removedTasks,
         completedTasks: state.completedTasks,
       ),
@@ -91,7 +91,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     List<Task> allTasks = state.allTasks;
     List<Task> activeTasks = state.activeTasks;
     List<Task> favoriteTasks = state.favoriteTasks;
-    // List<Task> completedTasks = state.completedTasks;
+    List<Task> completedTasks = state.completedTasks;
 
     if (event.task.isDone == false) {
       if (event.task.isFavorite == false) {
@@ -103,9 +103,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
         activeTasks = List.from(activeTasks)
           ..remove(event.task)
           ..insert(taskIndex, event.task.copyWith(isFavorite: true));
-        favoriteTasks
-          ..remove(event.task)
-          ..insert(0, event.task.copyWith(isFavorite: true));
+        favoriteTasks.insert(0, event.task.copyWith(isFavorite: true));
       } else {
         var taskIndex = allTasks.indexOf(event.task);
         allTasks = List.from(allTasks)
@@ -119,34 +117,27 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     } else //if event.task.isDone == true
     {
       activeTasks = List.from(activeTasks)..remove(event.task);
-      // if (event.task.isFavorite == false) {
-      //   var taskIndex = allTasks.indexOf(event.task);
-      //   allTasks = List.from(allTasks)
-      //     ..remove(event.task)
-      //     ..insert(
-      //         taskIndex, event.task.copyWith(isFavorite: true, isDone: true));
-      // completedTasks = List.from(completedTasks)
-      //   ..remove(event.task)
-      //   ..insert(
-      //       taskIndex, event.task.copyWith(isFavorite: true, isDone: true));
-      // favoriteTasks = List.from(favoriteTasks)
-      //   ..remove(event.task)
-      //   ..insert(
-      //       taskIndex, event.task.copyWith(isFavorite: true, isDone: true));
-      // } else {
-      // var taskIndex = allTasks.indexOf(event.task);
-      // allTasks = List.from(allTasks)
-      //   ..remove(event.task)
-      //   ..insert(
-      //       taskIndex, event.task.copyWith(isFavorite: false, isDone: true));
-      // completedTasks = List.from(completedTasks)
-      //   ..remove(event.task)
-      //   ..insert(
-      //       taskIndex, event.task.copyWith(isFavorite: false, isDone: true));
-      // favoriteTasks = List.from(favoriteTasks)
-      //   ..remove(event.task)
-      //   ..insert(0, event.task.copyWith(isFavorite: false, isDone: true));
-      //  }
+      if (event.task.isFavorite == false) {
+        var taskIndex = allTasks.indexOf(event.task);
+        allTasks = List.from(allTasks)
+          ..remove(event.task)
+          ..insert(taskIndex, event.task.copyWith(isFavorite: true));
+        completedTasks = List.from(completedTasks)
+          ..remove(event.task)
+          ..insert(
+              taskIndex, event.task.copyWith(isFavorite: true, isDone: true));
+        favoriteTasks.insert(0, event.task.copyWith(isFavorite: true));
+      } else //if event.task.isFavorite == true
+      {
+        var taskIndex = allTasks.indexOf(event.task);
+        allTasks = List.from(allTasks)
+          ..remove(event.task)
+          ..insert(taskIndex, event.task.copyWith(isFavorite: false));
+        completedTasks = List.from(completedTasks)
+          ..remove(event.task)
+          ..insert(taskIndex, event.task.copyWith(isFavorite: false));
+        favoriteTasks.remove(event.task);
+      }
     }
 
     emit(
@@ -154,7 +145,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
         allTasks: allTasks,
         activeTasks: activeTasks,
         favoriteTasks: favoriteTasks,
-        completedTasks: state.completedTasks,
+        completedTasks: completedTasks,
         removedTasks: state.removedTasks,
       ),
     );

@@ -7,9 +7,9 @@ class TasksList extends StatelessWidget {
   final List<Task> taskList;
 
   const TasksList({
-    super.key,
+    Key? key,
     required this.taskList,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class TasksList extends StatelessWidget {
               .map(
                 (task) => ExpansionPanelRadio(
                   value: task.id!,
-                  headerBuilder: (context, isOpen) => TaskTile(
+                  headerBuilder: (context, bool isOpen) => TaskTile(
                     task: task,
                   ),
                   body: ListTile(
