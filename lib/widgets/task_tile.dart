@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../blocs/bloc_exports.dart';
 import '../models/task.dart';
+import '../screens/edit_task_screen.dart';
 
 class TaskTile extends StatelessWidget {
   const TaskTile({
@@ -17,6 +18,21 @@ class TaskTile extends StatelessWidget {
     task.isDeleted!
         ? ctx.read<TasksBloc>().add(DeleteTask(task: task))
         : ctx.read<TasksBloc>().add(RemoveTask(task: task));
+  }
+
+  void _editTask(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: EditTaskScreen(oldTask: task),
+        ),
+      ),
+    );
   }
 
   @override
@@ -79,12 +95,22 @@ class TaskTile extends StatelessWidget {
                         ),
                   ),
             PopupMenu(
-              task: task,
-              cancelOrDeleteCallback: () => _removeOrDeleteTask(context, task),
-              favoriteOrUnFavorite: () => context.read<TasksBloc>().add(
-                    FavoriteTask(task: task),
-                  ),
-            ),
+                task: task,
+                cancelOrDeleteCallback: () =>
+                    _removeOrDeleteTask(context, task),
+                favoriteOrUnFavorite: () => context.read<TasksBloc>().add(
+                      FavoriteTask(task: task),
+                    ),
+                editTaskCallBack: () {
+                  Navigator.of(context).pop();
+                  _editTask(context);
+                },
+                restoreTaskCallBack: () {
+                  Navigator.of(context).pop();
+                  context.read<TasksBloc>().add(
+                        RestoreTask(task: task),
+                      );
+                }),
           ],
         ),
       ],

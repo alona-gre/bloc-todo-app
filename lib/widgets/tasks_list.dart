@@ -20,7 +20,7 @@ class TasksList extends StatelessWidget {
               .map(
                 (task) => ExpansionPanelRadio(
                   value: task.id!,
-                  headerBuilder: (context, bool isOpen) => TaskTile(
+                  headerBuilder: (context, isOpen) => TaskTile(
                     task: task,
                   ),
                   body: ListTile(

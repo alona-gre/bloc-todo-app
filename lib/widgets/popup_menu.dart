@@ -5,6 +5,8 @@ import '../models/task.dart';
 class PopupMenu extends StatelessWidget {
   final VoidCallback cancelOrDeleteCallback;
   final VoidCallback favoriteOrUnFavorite;
+  final VoidCallback editTaskCallBack;
+  final VoidCallback restoreTaskCallBack;
   final Task task;
 
   const PopupMenu({
@@ -12,6 +14,8 @@ class PopupMenu extends StatelessWidget {
     required this.cancelOrDeleteCallback,
     required this.task,
     required this.favoriteOrUnFavorite,
+    required this.editTaskCallBack,
+    required this.restoreTaskCallBack,
   }) : super(key: key);
 
   @override
@@ -20,12 +24,12 @@ class PopupMenu extends StatelessWidget {
       itemBuilder: task.isDeleted == false
           ? ((context) => [
                 PopupMenuItem(
+                  onTap: editTaskCallBack,
                   child: TextButton.icon(
-                    onPressed: null,
+                    onPressed: editTaskCallBack,
                     icon: const Icon(Icons.edit),
                     label: const Text('Edit'),
                   ),
-                  onTap: () {},
                 ),
                 PopupMenuItem(
                   onTap: favoriteOrUnFavorite,
@@ -50,9 +54,9 @@ class PopupMenu extends StatelessWidget {
               ])
           : ((context) => [
                 PopupMenuItem(
-                  onTap: () {},
+                  onTap: restoreTaskCallBack,
                   child: TextButton.icon(
-                    onPressed: null,
+                    onPressed: restoreTaskCallBack,
                     icon: const Icon(Icons.restore),
                     label: const Text('Restore'),
                   ),
